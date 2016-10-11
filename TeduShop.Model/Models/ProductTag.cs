@@ -9,12 +9,13 @@ using System.Threading.Tasks;
 namespace TeduShop.Model.Models
 {
     [Table("ProductTags")]
-    class ProductTag
+    public class ProductTag
     {
         [Key]
+        [Column(Order =1)]
         public int ProductID { set; get; }
         [Key]
-        [Column(TypeName = "varchar")]
+        [Column(TypeName = "varchar", Order =2)]
         [MaxLength(50)]
         public String TagID { set; get; }
         [ForeignKey("ProductID")]

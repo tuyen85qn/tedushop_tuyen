@@ -28,8 +28,7 @@ namespace TeduShop.Model.Models
         [MaxLength(50)]
         public String Yahoo { set; get; }
         [MaxLength(50)]
-        public String Facebook { set; get; }
-        [MaxLength(50)]
+        public String Facebook { set; get; }       
         public bool Status { set; get; }
         public int? DisplayOrder { set; get; }
     }
