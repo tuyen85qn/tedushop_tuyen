@@ -76,6 +76,10 @@
     <Compile Include="Migrations\201610171243337_AddErrorTable.Designer.cs">
       <DependentUpon>201610171243337_AddErrorTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610191235397_Intergrate-AspnetIdentity.cs" />
+    <Compile Include="Migrations\201610191235397_Intergrate-AspnetIdentity.Designer.cs">
+      <DependentUpon>201610191235397_Intergrate-AspnetIdentity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ErrorRepository.cs" />
@@ -114,6 +118,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610171243337_AddErrorTable.resx">
       <DependentUpon>201610171243337_AddErrorTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610191235397_Intergrate-AspnetIdentity.resx">
+      <DependentUpon>201610191235397_Intergrate-AspnetIdentity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
