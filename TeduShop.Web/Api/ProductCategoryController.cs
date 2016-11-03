@@ -38,7 +38,7 @@ namespace TeduShop.Web.Api
         }
 
         [Route("add")]
-        public HttpResponseMessage Product(HttpRequestMessage request, ProductCategoryViewModel ProductCategoryVm)
+        public HttpResponseMessage Product(HttpRequestMessage request, ProductCategoryViewModel productCategoryVm)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -50,10 +50,10 @@ namespace TeduShop.Web.Api
                 else
                 {
                     ProductCategory newProductCategory = new ProductCategory();
-                    newProductCategory.UpdateProductCategory(ProductCategoryVm);
+                    newProductCategory.UpdateProductCategory(productCategoryVm);
 
-                    var category = _ProductCategoryService.Add(newProductCategory);
-                    _ProductCategoryService.Save();
+                    var category = _productCategoryService.Add(newProductCategory);
+                    _productCategoryService.Save();
 
                     response = request.CreateResponse(HttpStatusCode.Created, category);
                 }
@@ -62,7 +62,7 @@ namespace TeduShop.Web.Api
         }
 
         [Route("update")]
-        public HttpResponseMessage Put(HttpRequestMessage request, ProductCategoryViewModel ProductCategoryVm)
+        public HttpResponseMessage Put(HttpRequestMessage request, ProductCategoryViewModel productCategoryVm)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -73,10 +73,10 @@ namespace TeduShop.Web.Api
                 }
                 else
                 {
-                    var ProductCategoryDb = _ProductCategoryService.GetById(ProductCategoryVm.ID);
-                    ProductCategoryDb.UpdateProductCategory(ProductCategoryVm);
-                    _ProductCategoryService.Update(ProductCategoryDb);
-                    _ProductCategoryService.Save();
+                    var productCategoryDb = _productCategoryService.GetById(productCategoryVm.ID);
+                    productCategoryDb.UpdateProductCategory(productCategoryVm);
+                    _productCategoryService.Update(productCategoryDb);
+                    _productCategoryService.Save();
 
                     response = request.CreateResponse(HttpStatusCode.OK);
                 }
@@ -95,8 +95,8 @@ namespace TeduShop.Web.Api
                 }
                 else
                 {
-                    _ProductCategoryService.Delete(id);
-                    _ProductCategoryService.Save();
+                    _productCategoryService.Delete(id);
+                    _productCategoryService.Save();
 
                     response = request.CreateResponse(HttpStatusCode.OK);
                 }

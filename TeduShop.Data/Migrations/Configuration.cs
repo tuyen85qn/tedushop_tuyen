@@ -18,6 +18,7 @@
 
         protected override void Seed(TeduShop.Data.TeduShopDbContext context)
         {
+
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
@@ -55,22 +56,35 @@
             //var adminUser = manager.FindByEmail("tedu.international@gmail.com");
 
             //manager.AddToRoles(adminUser.Id, new string[] { "Admin", "User" });
-        }
-        private void CreateProductCategorySample(TeduShop.Data.TeduShopDbContext context)
-        {
             if (context.ProductCategories.Count() == 0)
             {
-                List<ProductCategory> listProductCategory = new List<ProductCategory>()
-            {
-                new ProductCategory() { Name="Điện lạnh",Alias="dien-lanh",Status=true },
-                 new ProductCategory() { Name="Viễn thông",Alias="vien-thong",Status=true },
-                  new ProductCategory() { Name="Đồ gia dụng",Alias="do-gia-dung",Status=true },
-                   new ProductCategory() { Name="Mỹ phẩm",Alias="my-pham",Status=true }
-            };
+                IList<ProductCategory> listProductCategory = new List<ProductCategory>()
+                {
+                    new ProductCategory() { Name="Điện lạnh",Alias="dien-lanh",Status=true },
+                     new ProductCategory() { Name="Viễn thông",Alias="vien-thong",Status=true },
+                      new ProductCategory() { Name="Đồ gia dụng",Alias="do-gia-dung",Status=true },
+                       new ProductCategory() { Name="Mỹ phẩm",Alias="my-pham",Status=true }
+                };
                 context.ProductCategories.AddRange(listProductCategory);
                 context.SaveChanges();
             }
 
         }
+        //private void CreateProductCategorySample(TeduShop.Data.TeduShopDbContext context)
+        //{
+        //    if (context.ProductCategories.Count() == 0)
+        //    {
+        //        List<ProductCategory> listProductCategory = new List<ProductCategory>()
+        //        {
+        //            new ProductCategory() { Name="Điện lạnh",Alias="dien-lanh",Status=true },
+        //             new ProductCategory() { Name="Viễn thông",Alias="vien-thong",Status=true },
+        //              new ProductCategory() { Name="Đồ gia dụng",Alias="do-gia-dung",Status=true },
+        //               new ProductCategory() { Name="Mỹ phẩm",Alias="my-pham",Status=true }
+        //        };
+        //        context.ProductCategories.AddRange(listProductCategory);
+        //        context.SaveChanges();
+        //    }
+
+        //}
     }
 }
