@@ -17,11 +17,13 @@
         }
 
         function displayError(error) {
-            if(Array.isArray(error))
-            {
+            if (Array.isArray(error)) {
                 error.each(function (err) {
                     toastr.error(err);
                 });
+            }
+            else {
+                toastr.error(error);
             }
         }
 

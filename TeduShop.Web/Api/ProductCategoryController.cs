@@ -16,7 +16,8 @@ namespace TeduShop.Web.Api
     [RoutePrefix("api/productcategory")]
     public class ProductCategoryController : ApiControllerBase
     {
-        public IProductCategoryService _productCategoryService;
+        #region Initialize
+        private IProductCategoryService _productCategoryService;
 
         public ProductCategoryController(IErrorService errorService, IProductCategoryService productCategoryService)
             : base(errorService)
@@ -24,93 +25,119 @@ namespace TeduShop.Web.Api
             this._productCategoryService = productCategoryService;
         }
 
+        #endregion
+
+        [Route("getallparents")]
+        [HttpGet]
+        public HttpResponseMessage GetAll(HttpRequestMessage request)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                var model = _productCategoryService.GetAll();
+
+                var responseData = Mapper.Map<IEnumerable<ProductCategory>, IEnumerable<ProductCategoryViewModel>>(model);
+
+                var response = request.CreateResponse(HttpStatusCode.OK, responseData);
+                return response;
+            });
+        }
+        [Route("getbyid/{id:int}")]
+        [HttpGet]
+        public HttpResponseMessage GetById(HttpRequestMessage request, int id)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                var model = _productCategoryService.GetById(id);
+
+                var responseData = Mapper.Map<ProductCategory, ProductCategoryViewModel>(model);
+
+                var response = request.CreateResponse(HttpStatusCode.OK, responseData);
+
+                return response;
+            });
+        }
+
         [Route("getall")]
+        [HttpGet]
         public HttpResponseMessage GetAll(HttpRequestMessage request, string keyword, int page, int pageSize = 20)
         {
             return CreateHttpResponse(request, () =>
             {
                 int totalRow = 0;
                 var model = _productCategoryService.GetAll(keyword);
+
                 totalRow = model.Count();
                 var query = model.OrderByDescending(x => x.CreatedDate).Skip(page * pageSize).Take(pageSize);
-                var responData = Mapper.Map<IEnumerable<ProductCategory>, IEnumerable<ProductCategoryViewModel>>(query);
+
+                var responseData = Mapper.Map<IEnumerable<ProductCategory>, IEnumerable<ProductCategoryViewModel>>(query);
+
                 var paginationSet = new PaginationSet<ProductCategoryViewModel>()
                 {
-                    Items = responData,
+                    Items = responseData,
                     Page = page,
                     TotalCount = totalRow,
-                    TotalPages = (int)Math.Ceiling((decimal)totalRow / pageSize)                    
+                    TotalPages = (int)Math.Ceiling((decimal)totalRow / pageSize)
                 };
-
-                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, paginationSet);
-
+                var response = request.CreateResponse(HttpStatusCode.OK, paginationSet);
                 return response;
             });
         }
 
-        [Route("add")]
-        public HttpResponseMessage Product(HttpRequestMessage request, ProductCategoryViewModel productCategoryVm)
+
+        [Route("create")]
+        [HttpPost]
+        [AllowAnonymous]
+        public HttpResponseMessage Create(HttpRequestMessage request, ProductCategoryViewModel productCategoryVm)
         {
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = null;
-                if (ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
-                    request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                    response = request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
                 }
                 else
                 {
-                    ProductCategory newProductCategory = new ProductCategory();
+                    var newProductCategory = new ProductCategory();
                     newProductCategory.UpdateProductCategory(productCategoryVm);
-
-                    var category = _productCategoryService.Add(newProductCategory);
+                    newProductCategory.CreatedDate = DateTime.Now;
+                    _productCategoryService.Add(newProductCategory);
                     _productCategoryService.Save();
 
-                    response = request.CreateResponse(HttpStatusCode.Created, category);
+                    var responseData = Mapper.Map<ProductCategory, ProductCategoryViewModel>(newProductCategory);
+                    response = request.CreateResponse(HttpStatusCode.Created, responseData);
                 }
+
                 return response;
             });
         }
 
         [Route("update")]
-        public HttpResponseMessage Put(HttpRequestMessage request, ProductCategoryViewModel productCategoryVm)
+        [HttpPut]
+        [AllowAnonymous]
+        public HttpResponseMessage Update(HttpRequestMessage request, ProductCategoryViewModel productCategoryVm)
         {
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = null;
-                if (ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
-                    request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                    response = request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
                 }
                 else
                 {
-                    var productCategoryDb = _productCategoryService.GetById(productCategoryVm.ID);
-                    productCategoryDb.UpdateProductCategory(productCategoryVm);
-                    _productCategoryService.Update(productCategoryDb);
+                    var dbProductCategory = _productCategoryService.GetById(productCategoryVm.ID);
+
+                    dbProductCategory.UpdateProductCategory(productCategoryVm);
+                    dbProductCategory.UpdatedDate = DateTime.Now;
+
+                    _productCategoryService.Update(dbProductCategory);
                     _productCategoryService.Save();
 
-                    response = request.CreateResponse(HttpStatusCode.OK);
+                    var responseData = Mapper.Map<ProductCategory, ProductCategoryViewModel>(dbProductCategory);
+                    response = request.CreateResponse(HttpStatusCode.Created, responseData);
                 }
-                return response;
-            });
-        }
 
-        public HttpResponseMessage Delete(HttpRequestMessage request, int id)
-        {
-            return CreateHttpResponse(request, () =>
-            {
-                HttpResponseMessage response = null;
-                if (ModelState.IsValid)
-                {
-                    request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-                }
-                else
-                {
-                    _productCategoryService.Delete(id);
-                    _productCategoryService.Save();
-
-                    response = request.CreateResponse(HttpStatusCode.OK);
-                }
                 return response;
             });
         }
