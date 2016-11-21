@@ -2,8 +2,8 @@
 (function (app) {
     app.controller('productCategoryListController', productCategoryListController);
 
-    productCategoryListController.$inject = ['$scope', 'apiService', 'notificationService', '$ngBootbox','$filter'];
-
+    productCategoryListController.$inject = ['$scope', 'apiService', 'notificationService', '$ngBootbox', '$filter'];
+   
     function productCategoryListController($scope, apiService, notificationService, $ngBootbox, $filter) {
         $scope.productCategories = [];
         $scope.page = 0;
@@ -11,40 +11,18 @@
         $scope.getProductCagories = getProductCagories;
         $scope.keyword = '';
         $scope.search = search;
-        $scope.delProductCategory = delProductCategory;
-        $scope.selectAll = selectAll;
+        $scope.delProductCategory = delProductCategory;      
         $scope.deleteMultiple = deleteMultiple;
-
-        $scope.isAll = false;
-
-        function selectAll() {
-            if ($scope.isAll === false) {
-                angular.forEach($scope.productCategories, function (item) {
-                    item.checked = true;
-                });
-                $scope.isAll = true;
-            } else {
-                angular.forEach($scope.productCategories, function (item) {
-                    item.checked = false;
-                });
-                $scope.isAll = false;
-            }
-        }
-
-        $scope.$watch("productCategories", function (n, o) {
-            var checked = $filter("filter")(n, { checked: true });
-            if (checked.length) {
-                $scope.selected = checked;
-                $('#btnDelete').removeAttr('disabled');
-            } else {
-                $('#btnDelete').attr('disabled', 'disabled');
-            }
-        }, true);
-
+        $scope.productCategoryCheckeds = {};
+                   
         function deleteMultiple() {
             var listID = [];
-            $.each($scope.selected, function(i,item){
-                listID.push(item.ID);
+            $.each($scope.productCategoryCheckeds, function (i, item) {
+                if (item.Check == true)
+                {
+                    listID.push(item.ID);
+                }
+                
             });
             var config = {
                 params: {
@@ -63,7 +41,7 @@
             $ngBootbox.confirm('Bạn có muốn xóa không ?').then(function () {
                 var config = {
                     params: {
-                        id:id                    
+                        id: id
                     }
                 }
                 apiService.del('/api/productcategory/delete', config, function (result) {
@@ -74,7 +52,7 @@
                 });
             });
         }
-        
+       
         function search() {
             getProductCagories();
         }
@@ -87,13 +65,12 @@
                     pageSize: 5
                 }
             };
-            
+
             apiService.get('/api/productcategory/getall', config, function (result) {
-                if (result.data.TotalCount == 0)
-                {
+                if (result.data.TotalCount == 0) {
                     notificationService.displayWarning('Không tìm thấy bản ghi nào.');
                 }
-                
+
                 $scope.productCategories = result.data.Items;
                 $scope.page = result.data.Page;
                 $scope.pagesCount = result.data.TotalPages;
@@ -102,7 +79,7 @@
                 console.log('Load productcategory failed.');
             });
         }
-        
+
         $scope.getProductCagories();
     }
 })(angular.module('tedushop.product_categories'));
