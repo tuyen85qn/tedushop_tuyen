@@ -18,7 +18,6 @@
 
         protected override void Seed(TeduShop.Data.TeduShopDbContext context)
         {
-
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
@@ -31,60 +30,58 @@
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-            //var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new TeduShopDbContext()));
-
-            //var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new TeduShopDbContext()));
-
-            //var user = new ApplicationUser()
+            //if (context.ProductCategories.Count() == 0)
             //{
-            //    UserName = "tedu",
-            //    Email = "tedu.international@gmail.com",
-            //    EmailConfirmed = true,
-            //    BirthDay = DateTime.Now,
-            //    FullName = "Technology Education"
-
+            //    List<ProductCategory> listProductCategory = new List<ProductCategory>()
+            //{
+            //    new ProductCategory() { Name="Điện lạnh",Alias="dien-lanh",Status=true },
+            //     new ProductCategory() { Name="Viễn thông",Alias="vien-thong",Status=true },
+            //      new ProductCategory() { Name="Đồ gia dụng",Alias="do-gia-dung",Status=true },
+            //       new ProductCategory() { Name="Mỹ phẩm",Alias="my-pham",Status=true }
             //};
-
-            //manager.Create(user, "123654$");
-
-            //if (!roleManager.Roles.Any())
+            //    context.ProductCategories.AddRange(listProductCategory);
+            //    context.SaveChanges();
+            //}
+            //if (context.Products.Count() == 0)
             //{
-            //    roleManager.Create(new IdentityRole { Name = "Admin" });
-            //    roleManager.Create(new IdentityRole { Name = "User" });
+            //    List<Product> listProduct= new List<Product>()
+            //{
+            //    new Product() { Name="Tu lanh 1",Alias="tu-lanh-1",CategoryID=1, Status=true },
+            //     new Product() { Name="Tu lanh 2",Alias="tu-lanh-2",CategoryID=1,Status=true },
+            //      new Product() { Name="Tu lanh 3",Alias="tu-lanh-3",CategoryID=1,Status=true },
+            //       new Product() { Name="Tu lanh 4",Alias="tu-lanh-4",CategoryID=1,Status=true }
+            //};
+            //    context.Products.AddRange(listProduct);
+            //    context.SaveChanges();
             //}
 
-            //var adminUser = manager.FindByEmail("tedu.international@gmail.com");
+            //  This method will be called after migrating to the latest version.
 
-            //manager.AddToRoles(adminUser.Id, new string[] { "Admin", "User" });
-            if (context.ProductCategories.Count() == 0)
+            var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new TeduShopDbContext()));
+
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new TeduShopDbContext()));
+
+            var user = new ApplicationUser()
             {
-                IList<ProductCategory> listProductCategory = new List<ProductCategory>()
-                {
-                    new ProductCategory() { Name="Điện lạnh",Alias="dien-lanh",Status=true },
-                     new ProductCategory() { Name="Viễn thông",Alias="vien-thong",Status=true },
-                      new ProductCategory() { Name="Đồ gia dụng",Alias="do-gia-dung",Status=true },
-                       new ProductCategory() { Name="Mỹ phẩm",Alias="my-pham",Status=true }
-                };
-                context.ProductCategories.AddRange(listProductCategory);
-                context.SaveChanges();
+                UserName = "tedu",
+                Email = "tedu.international@gmail.com",
+                EmailConfirmed = true,
+                BirthDay = DateTime.Now,
+                FullName = "Technology Education"
+
+            };
+
+            manager.Create(user, "123654$");
+
+            if (!roleManager.Roles.Any())
+            {
+                roleManager.Create(new IdentityRole { Name = "Admin" });
+                roleManager.Create(new IdentityRole { Name = "User" });
             }
 
-        }
-        //private void CreateProductCategorySample(TeduShop.Data.TeduShopDbContext context)
-        //{
-        //    if (context.ProductCategories.Count() == 0)
-        //    {
-        //        List<ProductCategory> listProductCategory = new List<ProductCategory>()
-        //        {
-        //            new ProductCategory() { Name="Điện lạnh",Alias="dien-lanh",Status=true },
-        //             new ProductCategory() { Name="Viễn thông",Alias="vien-thong",Status=true },
-        //              new ProductCategory() { Name="Đồ gia dụng",Alias="do-gia-dung",Status=true },
-        //               new ProductCategory() { Name="Mỹ phẩm",Alias="my-pham",Status=true }
-        //        };
-        //        context.ProductCategories.AddRange(listProductCategory);
-        //        context.SaveChanges();
-        //    }
+            var adminUser = manager.FindByEmail("tedu.international@gmail.com");
 
-        //}
+            manager.AddToRoles(adminUser.Id, new string[] { "Admin", "User" });
+        }
     }
 }

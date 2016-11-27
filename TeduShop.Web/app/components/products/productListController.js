@@ -13,53 +13,32 @@
         $scope.search = search;
 
         $scope.deleteProduct = deleteProduct;
-
-        $scope.selectAll = selectAll;
-
+               
         $scope.deleteMultiple = deleteMultiple;
+
+        $scope.productCategoryCheckeds = {};
 
         function deleteMultiple() {
             var listId = [];
-            $.each($scope.selected, function (i, item) {
-                listId.push(item.ID);
+            $.each($scope.productCheckeds, function (i, item) {
+                if(item.Check ==true)
+                {
+                    listId.push(item.ID);
+                }               
             });
             var config = {
                 params: {
                     checkedProducts: JSON.stringify(listId)
                 }
             }
-            apiService.del('api/product/deletemulti', config, function (result) {
+            apiService.del('/api/product/deletemulti', config, function (result) {
                 notificationService.displaySuccess('Xóa thành công ' + result.data + ' bản ghi.');
                 search();
             }, function (error) {
                 notificationService.displayError('Xóa không thành công');
             });
         }
-
-        $scope.isAll = false;
-        function selectAll() {
-            if ($scope.isAll === false) {
-                angular.forEach($scope.products, function (item) {
-                    item.checked = true;
-                });
-                $scope.isAll = true;
-            } else {
-                angular.forEach($scope.products, function (item) {
-                    item.checked = false;
-                });
-                $scope.isAll = false;
-            }
-        }
-
-        $scope.$watch("products", function (n, o) {
-            var checked = $filter("filter")(n, { checked: true });
-            if (checked.length) {
-                $scope.selected = checked;
-                $('#btnDelete').removeAttr('disabled');
-            } else {
-                $('#btnDelete').attr('disabled', 'disabled');
-            }
-        }, true);
+                    
 
         function deleteProduct(id) {
             $ngBootbox.confirm('Bạn có chắc muốn xóa?').then(function () {
@@ -68,7 +47,7 @@
                         id: id
                     }
                 }
-                apiService.del('api/product/delete', config, function () {
+                apiService.del('/api/product/delete', config, function () {
                     notificationService.displaySuccess('Xóa thành công');
                     search();
                 }, function () {

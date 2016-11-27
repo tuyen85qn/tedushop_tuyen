@@ -83,6 +83,7 @@ namespace TeduShop.Web.Infrastructure.Extensions
             product.Warranty = productVm.Warranty;
             product.HomeFlag = productVm.HomeFlag;
             product.ViewCount = productVm.ViewCount;
+            product.Tags = productVm.Tags;
 
             product.CreatedDate = productVm.CreatedDate;
             product.CreatedBy = productVm.CreatedBy;

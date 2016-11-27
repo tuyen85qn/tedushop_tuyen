@@ -35,6 +35,8 @@ namespace TeduShop.Web.Models
 
         public int? ViewCount { set; get; }
 
+        public string Tags { set; get; }
+
         public DateTime? CreatedDate { set; get; }
 
         public string CreatedBy { set; get; }

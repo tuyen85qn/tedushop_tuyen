@@ -68,17 +68,13 @@
     <Compile Include="Infrastructure\IUnitOfWork.cs" />
     <Compile Include="Infrastructure\RepositoryBase.cs" />
     <Compile Include="Infrastructure\UnitOfWork.cs" />
-    <Compile Include="Migrations\201610110800331_InitialDB.cs" />
-    <Compile Include="Migrations\201610110800331_InitialDB.Designer.cs">
-      <DependentUpon>201610110800331_InitialDB.cs</DependentUpon>
+    <Compile Include="Migrations\201611211243527_InitialDB.cs" />
+    <Compile Include="Migrations\201611211243527_InitialDB.Designer.cs">
+      <DependentUpon>201611211243527_InitialDB.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201610171243337_AddErrorTable.cs" />
-    <Compile Include="Migrations\201610171243337_AddErrorTable.Designer.cs">
-      <DependentUpon>201610171243337_AddErrorTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201610191235397_Intergrate-AspnetIdentity.cs" />
-    <Compile Include="Migrations\201610191235397_Intergrate-AspnetIdentity.Designer.cs">
-      <DependentUpon>201610191235397_Intergrate-AspnetIdentity.cs</DependentUpon>
+    <Compile Include="Migrations\201611230228575_AddTagField.cs" />
+    <Compile Include="Migrations\201611230228575_AddTagField.Designer.cs">
+      <DependentUpon>201611230228575_AddTagField.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -113,14 +109,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201610110800331_InitialDB.resx">
-      <DependentUpon>201610110800331_InitialDB.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201611211243527_InitialDB.resx">
+      <DependentUpon>201611211243527_InitialDB.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610171243337_AddErrorTable.resx">
-      <DependentUpon>201610171243337_AddErrorTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610191235397_Intergrate-AspnetIdentity.resx">
-      <DependentUpon>201610191235397_Intergrate-AspnetIdentity.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201611230228575_AddTagField.resx">
+      <DependentUpon>201611230228575_AddTagField.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
